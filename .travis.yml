@@ -1,0 +1,19 @@
+# based on electron-packager before-install.sh
+os: osx
+language: node_js
+node_js:
+  - "6"
+install:
+  - npm install -g npm@latest
+  - npm install -g electron-packager
+  - npm install wine-darwin@1.9.17-1
+  - ./node_modules/.bin/wine hostname
+  - npm install -g yarn
+before_script:
+  - npm install electron
+script: electron-packager . my-sample-app --all --asar --out=dist
+env:
+  global:
+    # prevent wine popup dialogs about installing additional packages
+    - WINEDLLOVERRIDES="mscoree,mshtml="
+    - WINEDEBUG="-all"
